@@ -156,11 +156,14 @@
 .skill-row input{flex:1;font-family:var(--font);font-size:13px;padding:7px 10px;border:1.5px solid var(--border);border-radius:var(--radius);outline:none;background:#fff;color:var(--text);transition:border-color .15s}
 .skill-row input:focus{border-color:var(--blue)}
 .skill-row button{font-family:var(--font);font-size:12px;font-weight:600;padding:7px 14px;background:var(--blue);color:#fff;border:none;border-radius:var(--radius);cursor:pointer}
-.quick-chips{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px;align-items:center}
+.skill-categories{display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
+.sc-group{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:8px 10px}
+.sc-label{font-size:11px;font-weight:700;color:var(--text2);margin-bottom:6px}
+.quick-chips{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:0;align-items:center}
 .qc-label{font-size:10px;font-weight:600;color:var(--text3);white-space:nowrap}
 .quick-chips button{font-family:var(--font);font-size:11px;padding:3px 9px;border:1px solid var(--border);border-radius:20px;background:#fff;color:var(--text2);cursor:pointer;transition:all .15s}
 .quick-chips button:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-l)}
-.tags-area{display:flex;flex-wrap:wrap;gap:5px;min-height:4px}
+.tags-area{display:flex;flex-wrap:wrap;gap:5px;min-height:4px;margin-top:8px}
 .stag{display:inline-flex;align-items:center;gap:4px;padding:4px 10px 4px 12px;background:var(--blue-l);color:var(--blue);border:1px solid rgba(26,115,232,.2);border-radius:20px;font-size:12px;font-weight:500}
 .stag button{background:none;border:none;cursor:pointer;color:var(--blue);font-size:15px;opacity:.6;display:flex;align-items:center;padding:0;line-height:1;transition:opacity .15s}
 .stag button:hover{opacity:1}
