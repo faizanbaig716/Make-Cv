@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact – ProCV Builder</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="page-body">
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><div class="nav-logo-icon">📄</div>Pro<strong>CV</strong></a>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="templates.html" class="nav-link">Templates</a>
+      <a href="builder.html" class="nav-link">Builder</a>
+      <a href="contact.html" class="nav-link active">Contact</a>
+    </div>
+    <a href="builder.html" class="nav-cta">Build My CV →</a>
+  </div>
+</nav>
+
+<div class="page-container" style="max-width:900px">
+  <div class="page-hero">
+    <div class="section-label">Get in touch</div>
+    <h1 class="page-title">Contact Us</h1>
+    <p class="page-sub">Have feedback, questions, or feature suggestions? We'd love to hear from you.</p>
+  </div>
+
+  <div class="contact-grid">
+    <div class="contact-info">
+      <h3>We're here to help</h3>
+      <p>ProCV Builder is a free tool built to help people create professional resumes quickly and easily. Your feedback helps us improve.</p>
+
+      <div class="contact-items">
+        <div class="contact-item">
+          <div class="ci-icon">📧</div>
+          <div>
+            <div class="ci-label">Email</div>
+            <div class="ci-value">support@procvbuilder.com</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-icon">🕐</div>
+          <div>
+            <div class="ci-label">Response time</div>
+            <div class="ci-value">Within 24 hours</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-icon">🌍</div>
+          <div>
+            <div class="ci-label">Available</div>
+            <div class="ci-value">Worldwide, all languages</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-block">
+        <h4>Common questions</h4>
+        <div class="faq-item">
+          <div class="faq-q">Is ProCV really free?</div>
+          <div class="faq-a">Yes, 100% free. No hidden charges, no premium plan needed for PDF download.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Is my data saved anywhere?</div>
+          <div class="faq-a">No. All data stays in your browser. We don't collect or store anything.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Can I use it on mobile?</div>
+          <div class="faq-a">Yes! The builder is fully responsive and works on all devices.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-form-wrap">
+      <h3>Send a message</h3>
+      <div class="contact-form">
+        <div class="cf-field">
+          <label>Your name</label>
+          <input type="text" placeholder="Ahmed Khan">
+        </div>
+        <div class="cf-field">
+          <label>Email address</label>
+          <input type="email" placeholder="ahmed@email.com">
+        </div>
+        <div class="cf-field">
+          <label>Subject</label>
+          <select>
+            <option>General feedback</option>
+            <option>Bug report</option>
+            <option>Feature request</option>
+            <option>Template suggestion</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="cf-field">
+          <label>Message</label>
+          <textarea rows="5" placeholder="Tell us what's on your mind..."></textarea>
+        </div>
+        <button class="btn-contact-send" onclick="sendMsg()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          Send message
+        </button>
+        <div class="cf-note">This is a demo form. No data is sent anywhere.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-logo">📄 Pro<strong>CV</strong></div>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="templates.html">Templates</a>
+      <a href="builder.html">Builder</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <p class="footer-copy">© 2026 ProCV Builder. Free forever.</p>
+  </div>
+</footer>
+
+<script>
+function sendMsg() {
+  const btn = document.querySelector('.btn-contact-send');
+  btn.textContent = '✓ Message sent!';
+  btn.style.background = '#188038';
+  setTimeout(() => { btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Send message'; btn.style.background = ''; }, 3000);
+}
+</script>
+</body>
+</html>

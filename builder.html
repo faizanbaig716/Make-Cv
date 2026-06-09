@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CV Builder – ProCV</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="builder.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body class="builder-body">
+
+<!-- BUILDER NAV -->
+<nav class="builder-nav">
+  <a href="index.html" class="nav-logo" style="color:#fff"><div class="nav-logo-icon">📄</div>Pro<strong>CV</strong></a>
+  <div class="builder-nav-center">
+    <div class="ats-mini" id="ats-mini">
+      <div class="ats-mini-ring">
+        <svg viewBox="0 0 36 36" class="ats-svg">
+          <circle cx="18" cy="18" r="15.9" fill="none" stroke="#ffffff22" stroke-width="3"/>
+          <circle cx="18" cy="18" r="15.9" fill="none" stroke="#4ade80" stroke-width="3"
+            stroke-dasharray="0 100" stroke-linecap="round" stroke-dashoffset="25" id="ats-ring"/>
+        </svg>
+        <span id="ats-score-mini">0</span>
+      </div>
+      <div class="ats-mini-text">
+        <div class="ats-mini-label">ATS Score</div>
+        <div class="ats-mini-sub" id="ats-mini-sub">Fill in details</div>
+      </div>
+    </div>
+  </div>
+  <div class="builder-nav-right">
+    <button class="btn-template-switcher" onclick="openTemplateModal()">
+      🎨 Template: <span id="current-template-name">Modern</span>
+    </button>
+    <button class="btn-dl-nav" onclick="downloadPDF()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Download PDF
+    </button>
+  </div>
+</nav>
+
+<!-- TEMPLATE MODAL -->
+<div class="modal-overlay" id="template-modal" onclick="closeTemplateModal(event)">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3>Choose a template</h3>
+      <button class="modal-close" onclick="document.getElementById('template-modal').style.display='none'">✕</button>
+    </div>
+    <div class="modal-templates">
+      <div class="mt-card" onclick="setTemplate('modern')" id="mt-modern">
+        <div class="mt-preview mt-modern-prev">
+          <div class="mtp-sidebar"><div class="mtp-bar"></div><div class="mtp-bar short"></div><div class="mtp-bar"></div></div>
+          <div class="mtp-main"><div class="mtp-bar long"></div><div class="mtp-bar"></div><div class="mtp-bar long"></div></div>
+        </div>
+        <div class="mt-label">Modern</div>
+        <div class="mt-badge">Popular</div>
+      </div>
+      <div class="mt-card" onclick="setTemplate('classic')" id="mt-classic">
+        <div class="mt-preview mt-classic-prev">
+          <div class="mtp-bar long center"></div>
+          <div class="mtp-bar short center"></div>
+          <div class="mtp-divider"></div>
+          <div class="mtp-bar long"></div>
+          <div class="mtp-bar"></div>
+        </div>
+        <div class="mt-label">Classic</div>
+        <div class="mt-badge green">Best ATS</div>
+      </div>
+      <div class="mt-card" onclick="setTemplate('minimal')" id="mt-minimal">
+        <div class="mt-preview mt-minimal-prev">
+          <div class="mtp-bar long"></div>
+          <div class="mtp-bar short"></div>
+          <div class="mtp-thin-line"></div>
+          <div class="mtp-bar long"></div>
+          <div class="mtp-bar"></div>
+        </div>
+        <div class="mt-label">Minimal</div>
+        <div class="mt-badge gray">Clean</div>
+      </div>
+      <div class="mt-card" onclick="setTemplate('creative')" id="mt-creative">
+        <div class="mt-preview mt-creative-prev">
+          <div class="mtp-top-stripe"></div>
+          <div class="mtp-bar long"></div>
+          <div class="mtp-bar short accent"></div>
+          <div class="mtp-bar long"></div>
+        </div>
+        <div class="mt-label">Creative</div>
+        <div class="mt-badge purple">Bold</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ATS PANEL -->
+<div class="ats-panel" id="ats-panel">
+  <div class="ats-panel-header">
+    <h3>🎯 ATS Score Analysis</h3>
+    <button onclick="document.getElementById('ats-panel').classList.toggle('open')">✕</button>
+  </div>
+  <div class="ats-score-big">
+    <div class="ats-donut">
+      <svg viewBox="0 0 80 80">
+        <circle cx="40" cy="40" r="32" fill="none" stroke="#e8f0fe" stroke-width="8"/>
+        <circle cx="40" cy="40" r="32" fill="none" stroke="#1a73e8" stroke-width="8"
+          stroke-dasharray="0 201" stroke-linecap="round" stroke-dashoffset="50" id="ats-donut-ring"/>
+      </svg>
+      <div class="ats-donut-text"><span id="ats-donut-score">0</span><small>/100</small></div>
+    </div>
+    <div class="ats-score-label" id="ats-score-label">Not started</div>
+  </div>
+  <div class="ats-checks" id="ats-checks"></div>
+  <div class="ats-tips" id="ats-tips"></div>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="builder-layout">
+
+  <!-- LEFT PANEL -->
+  <div class="bleft">
+
+    <!-- TABS -->
+    <div class="btabs">
+      <button class="btab active" data-t="personal" onclick="gotoTab('personal',this)">👤 Personal</button>
+      <button class="btab" data-t="education" onclick="gotoTab('education',this)">🎓 Education</button>
+      <button class="btab" data-t="experience" onclick="gotoTab('experience',this)">💼 Experience</button>
+      <button class="btab" data-t="skills" onclick="gotoTab('skills',this)">⚡ Skills</button>
+      <button class="btab" data-t="extras" onclick="gotoTab('extras',this)">🏆 Extras</button>
+      <button class="btab ats-tab" onclick="document.getElementById('ats-panel').classList.toggle('open')">🎯 ATS</button>
+    </div>
+
+    <div class="bpanes">
+
+      <!-- PERSONAL -->
+      <div class="bpane active" id="bpane-personal">
+        <div class="bpane-title">Personal information</div>
+
+        <!-- PHOTO -->
+        <div class="photo-upload-area">
+          <div class="photo-upload-circle" id="photo-circle" onclick="document.getElementById('photo-file').click()">
+            <img id="photo-img" src="" alt="" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:50%">
+            <div id="photo-empty">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#9aa0a6" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+              <span>Add Photo</span>
+            </div>
+          </div>
+          <input type="file" id="photo-file" accept="image/*" style="display:none" onchange="handlePhoto(this)">
+          <div class="photo-upload-info">
+            <div class="photo-upload-title">Profile Photo <span class="opt-badge">Optional</span></div>
+            <div class="photo-upload-desc">Professional headshot. JPG/PNG. Not required for ATS.</div>
+            <div class="photo-upload-actions">
+              <button class="btn-photo-change" onclick="document.getElementById('photo-file').click()">Upload photo</button>
+              <button class="btn-photo-remove" id="btn-photo-remove" style="display:none" onclick="removePhoto()">Remove</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="bform-grid">
+          <div class="bf full"><label>Full name <span class="req">*</span></label><input id="p-name" placeholder="Ahmed Khan" oninput="render();calcATS()"></div>
+          <div class="bf full"><label>Job title</label><input id="p-title" placeholder="Senior Software Engineer" oninput="render();calcATS()"></div>
+          <div class="bf"><label>Email <span class="req">*</span></label>
+            <div class="iw"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9aa0a6" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <input id="p-email" type="email" placeholder="ahmed@email.com" oninput="render();calcATS()"></div>
+          </div>
+          <div class="bf"><label>Phone</label>
+            <div class="iw"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9aa0a6" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.95 1h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L5.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+            <input id="p-phone" placeholder="+92 300 1234567" oninput="render();calcATS()"></div>
+          </div>
+          <div class="bf"><label>Location</label>
+            <div class="iw"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9aa0a6" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <input id="p-loc" placeholder="Lahore, Pakistan" oninput="render()"></div>
+          </div>
+          <div class="bf"><label>LinkedIn / Website</label>
+            <div class="iw"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9aa0a6" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+            <input id="p-link" placeholder="linkedin.com/in/ahmed" oninput="render()"></div>
+          </div>
+          <div class="bf full"><label>Professional summary <span class="hint-txt">(Boosts ATS score)</span></label>
+            <textarea id="p-summary" rows="4" placeholder="2–3 sentences highlighting your key expertise, achievements, and value. Use keywords from job descriptions." oninput="render();calcATS();document.getElementById('scount').textContent=this.value.length"></textarea>
+            <div class="field-foot"><span id="scount">0</span>/400</div>
+          </div>
+        </div>
+        <div class="bpane-nav"><span></span><button class="btn-next-tab" onclick="gotoTab('education',document.querySelector('[data-t=education]'))">Education →</button></div>
+      </div>
+
+      <!-- EDUCATION -->
+      <div class="bpane" id="bpane-education">
+        <div class="bpane-title">Education</div>
+        <div id="edu-list"></div>
+        <button class="btn-add-block" onclick="addEdu()">+ Add education</button>
+        <div class="bpane-nav">
+          <button class="btn-prev-tab" onclick="gotoTab('personal',document.querySelector('[data-t=personal]'))">← Personal</button>
+          <button class="btn-next-tab" onclick="gotoTab('experience',document.querySelector('[data-t=experience]'))">Experience →</button>
+        </div>
+      </div>
+
+      <!-- EXPERIENCE -->
+      <div class="bpane" id="bpane-experience">
+        <div class="bpane-title">Work experience</div>
+        <div class="bpane-hint">💡 Start with most recent. Use bullet points (•) for achievements. Quantify results when possible.</div>
+        <div id="exp-list"></div>
+        <button class="btn-add-block" onclick="addExp()">+ Add experience</button>
+        <div class="bpane-nav">
+          <button class="btn-prev-tab" onclick="gotoTab('education',document.querySelector('[data-t=education]'))">← Education</button>
+          <button class="btn-next-tab" onclick="gotoTab('skills',document.querySelector('[data-t=skills]'))">Skills →</button>
+        </div>
+      </div>
+
+      <!-- SKILLS -->
+      <div class="bpane" id="bpane-skills">
+        <div class="bpane-title">Skills & languages</div>
+        <div class="skill-section">
+          <div class="skill-sec-label">Technical skills <span class="hint-txt">(adds to ATS)</span></div>
+          <div class="skill-row"><input id="skill-inp" placeholder="Type skill + Enter" onkeydown="if(event.key==='Enter'){event.preventDefault();addSkill()}"><button onclick="addSkill()">Add</button></div>
+          <div class="quick-chips">
+            <span class="qc-label">Quick:</span>
+            <button onclick="qSkill('JavaScript')">JavaScript</button><button onclick="qSkill('Python')">Python</button>
+            <button onclick="qSkill('React')">React</button><button onclick="qSkill('Node.js')">Node.js</button>
+            <button onclick="qSkill('TypeScript')">TypeScript</button><button onclick="qSkill('SQL')">SQL</button>
+            <button onclick="qSkill('Git')">Git</button><button onclick="qSkill('Docker')">Docker</button>
+            <button onclick="qSkill('AWS')">AWS</button><button onclick="qSkill('Figma')">Figma</button>
+            <button onclick="qSkill('Vue.js')">Vue.js</button><button onclick="qSkill('MongoDB')">MongoDB</button>
+          </div>
+          <div class="tags-area" id="skill-tags"></div>
+        </div>
+        <div class="skill-section">
+          <div class="skill-sec-label">Languages</div>
+          <div class="skill-row"><input id="lang-inp" placeholder="e.g. English (Fluent)" onkeydown="if(event.key==='Enter'){event.preventDefault();addLang()}"><button onclick="addLang()">Add</button></div>
+          <div class="quick-chips">
+            <button onclick="qLang('English (Fluent)')">English</button>
+            <button onclick="qLang('Urdu (Native)')">Urdu</button>
+            <button onclick="qLang('Arabic (Intermediate)')">Arabic</button>
+            <button onclick="qLang('French (Basic)')">French</button>
+          </div>
+          <div class="tags-area" id="lang-tags"></div>
+        </div>
+        <div class="bpane-nav">
+          <button class="btn-prev-tab" onclick="gotoTab('experience',document.querySelector('[data-t=experience]'))">← Experience</button>
+          <button class="btn-next-tab" onclick="gotoTab('extras',document.querySelector('[data-t=extras]'))">Extras →</button>
+        </div>
+      </div>
+
+      <!-- EXTRAS -->
+      <div class="bpane" id="bpane-extras">
+        <div class="bpane-title">Certifications & projects</div>
+        <div class="extras-sub-title">🏅 Certifications</div>
+        <div id="cert-list"></div>
+        <button class="btn-add-block" onclick="addCert()">+ Add certification</button>
+        <div class="extras-sub-title" style="margin-top:1.25rem">💻 Projects</div>
+        <div id="proj-list"></div>
+        <button class="btn-add-block" onclick="addProj()">+ Add project</button>
+        <div class="bpane-nav">
+          <button class="btn-prev-tab" onclick="gotoTab('skills',document.querySelector('[data-t=skills]'))">← Skills</button>
+          <button class="btn-dl-final" onclick="downloadPDF()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download PDF
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- RIGHT: PREVIEW -->
+  <div class="bright">
+    <div class="preview-topbar">
+      <span class="preview-toplabel">📄 Live preview</span>
+      <div class="preview-topright">
+        <span class="preview-tophint">Auto-updates as you type</span>
+        <button class="btn-fullscreen" onclick="toggleFullscreen()" title="Fullscreen preview">⛶</button>
+      </div>
+    </div>
+    <div class="preview-area" id="preview-area">
+      <div class="cv-page" id="cv-preview"></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="builder.js"></script>
+</body>
+</html>
