@@ -140,11 +140,11 @@ function renderExpList() {
         </div>
       </div>
       <div class="ec-body">
-        <div class="ec-full"><label>Job title</label><input value="${e.role}" placeholder="Senior Frontend Developer" oninput="exp.find(x=>x.id===${e.id}).role=this.value;renderExpList();render();calcATS()"></div>
-        <div class="ec-full"><label>Company</label><input value="${e.company}" placeholder="Systems Limited" oninput="exp.find(x=>x.id===${e.id}).company=this.value;render()"></div>
+        <div class="ec-full"><label>Job title / Position</label><input value="${e.role}" placeholder="e.g. Sales Manager, Teacher, Engineer, Designer..." oninput="exp.find(x=>x.id===${e.id}).role=this.value;renderExpList();render();calcATS()"></div>
+        <div class="ec-full"><label>Employer / Organization</label><input value="${e.company}" placeholder="e.g. Company name, School, Hospital, NGO..." oninput="exp.find(x=>x.id===${e.id}).company=this.value;render()"></div>
         <div class="ec-full"><label>Period</label><input value="${e.period}" placeholder="Jan 2022 – Present" oninput="exp.find(x=>x.id===${e.id}).period=this.value;render()"></div>
-        <div class="ec-full"><label>Description <span style="font-weight:400;color:#9aa0a6">(start lines with • for bullets)</span></label>
-          <textarea rows="4" placeholder="• Built REST APIs with Node.js&#10;• Reduced page load by 40%&#10;• Led team of 5 developers" oninput="exp.find(x=>x.id===${e.id}).desc=this.value;render();calcATS()">${e.desc}</textarea>
+        <div class="ec-full"><label>Key responsibilities & achievements <span style="font-weight:400;color:#9aa0a6">(start each line with • for bullets)</span></label>
+          <textarea rows="4" placeholder="• Describe your main responsibilities&#10;• Highlight key achievements&#10;• Mention any awards or recognition&#10;• Quantify results where possible (e.g. increased sales by 20%)" oninput="exp.find(x=>x.id===${e.id}).desc=this.value;render();calcATS()">${e.desc}</textarea>
         </div>
       </div>
     </div>`).join('');
@@ -528,27 +528,67 @@ function downloadPDF() {
   const name = val('p-name') || 'My_CV';
   const filename = name.replace(/\s+/g, '_') + `_${template}_CV.pdf`;
 
-  // Clone for clean export
+  // Create a clean off-screen clone with all styles applied
+  const wrapper = document.createElement('div');
+  wrapper.style.cssText = [
+    'position:fixed', 'left:-9999px', 'top:0',
+    'width:794px',   // A4 at 96dpi
+    'background:#fff',
+    'font-family:Georgia,serif',
+    'font-size:11.5px',
+    'line-height:1.55',
+    'color:#1a1a1a',
+    'padding:44px 52px',
+    'box-sizing:border-box'
+  ].join(';');
+
   const clone = page.cloneNode(true);
-  clone.style.cssText = 'width:170mm;padding:15mm 18mm;font-size:11.5px;line-height:1.55;';
+  // Remove box-shadow, border-radius for clean PDF
+  clone.style.cssText = 'width:100%;min-height:unset;box-shadow:none;border-radius:0;padding:0;margin:0;font-family:inherit;font-size:inherit;color:inherit;line-height:inherit;';
+
+  wrapper.appendChild(clone);
+  document.body.appendChild(wrapper);
+
+  // Copy all computed link/style rules so template colours render
+  const styleSheets = Array.from(document.styleSheets);
+  let cssText = '';
+  styleSheets.forEach(sheet => {
+    try {
+      Array.from(sheet.cssRules).forEach(rule => { cssText += rule.cssText + '\n'; });
+    } catch(e) {}
+  });
+  const styleEl = document.createElement('style');
+  styleEl.textContent = cssText;
+  wrapper.insertBefore(styleEl, clone);
 
   const opt = {
-    margin: [0, 0, 0, 0],
+    margin: [10, 10, 10, 10],
     filename,
-    image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2.5, useCORS: true, logging: false },
+    image: { type: 'jpeg', quality: 0.99 },
+    html2canvas: {
+      scale: 2,
+      useCORS: true,
+      logging: false,
+      allowTaint: true,
+      backgroundColor: '#ffffff',
+      width: 794,
+      windowWidth: 794
+    },
     jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
   };
 
-  const btn = document.querySelector('.btn-dl-nav');
-  btn.textContent = 'Generating...';
+  const allBtns = document.querySelectorAll('.btn-dl-nav, .btn-dl-final');
+  allBtns.forEach(b => { b._orig = b.innerHTML; b.textContent = '⏳ Generating...'; b.disabled = true; });
 
-  html2pdf().set(opt).from(page).save().then(() => {
-    btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download PDF';
-    showToast('✓ PDF downloaded successfully!');
-  }).catch(() => {
-    btn.innerHTML = 'Download PDF';
+  html2pdf().set(opt).from(wrapper).save().then(() => {
+    document.body.removeChild(wrapper);
+    allBtns.forEach(b => { b.innerHTML = b._orig; b.disabled = false; });
+    showToast('✓ PDF downloaded! Check your Downloads folder.');
+  }).catch(err => {
+    document.body.removeChild(wrapper);
+    allBtns.forEach(b => { b.innerHTML = b._orig; b.disabled = false; });
     showToast('⚠ Download failed — try again');
+    console.error(err);
   });
 }
 
