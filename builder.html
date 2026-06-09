@@ -197,7 +197,7 @@
       <!-- EXPERIENCE -->
       <div class="bpane" id="bpane-experience">
         <div class="bpane-title">Work experience</div>
-        <div class="bpane-hint">💡 Start with most recent. Use bullet points (•) for achievements. Quantify results when possible.</div>
+        <div class="bpane-hint">💡 Add jobs, internships, freelance work, or volunteer roles. Start with the most recent. Use bullet points (•) to list what you did and achieved.</div>
         <div id="exp-list"></div>
         <button class="btn-add-block" onclick="addExp()">+ Add experience</button>
         <div class="bpane-nav">
@@ -210,16 +210,96 @@
       <div class="bpane" id="bpane-skills">
         <div class="bpane-title">Skills & languages</div>
         <div class="skill-section">
-          <div class="skill-sec-label">Technical skills <span class="hint-txt">(adds to ATS)</span></div>
-          <div class="skill-row"><input id="skill-inp" placeholder="Type skill + Enter" onkeydown="if(event.key==='Enter'){event.preventDefault();addSkill()}"><button onclick="addSkill()">Add</button></div>
-          <div class="quick-chips">
-            <span class="qc-label">Quick:</span>
-            <button onclick="qSkill('JavaScript')">JavaScript</button><button onclick="qSkill('Python')">Python</button>
-            <button onclick="qSkill('React')">React</button><button onclick="qSkill('Node.js')">Node.js</button>
-            <button onclick="qSkill('TypeScript')">TypeScript</button><button onclick="qSkill('SQL')">SQL</button>
-            <button onclick="qSkill('Git')">Git</button><button onclick="qSkill('Docker')">Docker</button>
-            <button onclick="qSkill('AWS')">AWS</button><button onclick="qSkill('Figma')">Figma</button>
-            <button onclick="qSkill('Vue.js')">Vue.js</button><button onclick="qSkill('MongoDB')">MongoDB</button>
+          <div class="skill-sec-label">Skills <span class="hint-txt">(relevant to your field)</span></div>
+          <div class="skill-row"><input id="skill-inp" placeholder="Type any skill + Enter..." onkeydown="if(event.key==='Enter'){event.preventDefault();addSkill()}"><button onclick="addSkill()">Add</button></div>
+
+          <div class="skill-categories">
+            <div class="sc-group">
+              <div class="sc-label">💻 Technology</div>
+              <div class="quick-chips">
+                <button onclick="qSkill('Microsoft Office')">MS Office</button>
+                <button onclick="qSkill('Excel')">Excel</button>
+                <button onclick="qSkill('PowerPoint')">PowerPoint</button>
+                <button onclick="qSkill('JavaScript')">JavaScript</button>
+                <button onclick="qSkill('Python')">Python</button>
+                <button onclick="qSkill('React')">React</button>
+                <button onclick="qSkill('SQL')">SQL</button>
+                <button onclick="qSkill('Photoshop')">Photoshop</button>
+                <button onclick="qSkill('Figma')">Figma</button>
+                <button onclick="qSkill('AutoCAD')">AutoCAD</button>
+                <button onclick="qSkill('SAP')">SAP</button>
+                <button onclick="qSkill('Salesforce')">Salesforce</button>
+              </div>
+            </div>
+            <div class="sc-group">
+              <div class="sc-label">🧠 Soft skills</div>
+              <div class="quick-chips">
+                <button onclick="qSkill('Leadership')">Leadership</button>
+                <button onclick="qSkill('Communication')">Communication</button>
+                <button onclick="qSkill('Teamwork')">Teamwork</button>
+                <button onclick="qSkill('Problem Solving')">Problem Solving</button>
+                <button onclick="qSkill('Time Management')">Time Management</button>
+                <button onclick="qSkill('Critical Thinking')">Critical Thinking</button>
+                <button onclick="qSkill('Adaptability')">Adaptability</button>
+                <button onclick="qSkill('Creativity')">Creativity</button>
+                <button onclick="qSkill('Negotiation')">Negotiation</button>
+                <button onclick="qSkill('Public Speaking')">Public Speaking</button>
+              </div>
+            </div>
+            <div class="sc-group">
+              <div class="sc-label">🏥 Healthcare</div>
+              <div class="quick-chips">
+                <button onclick="qSkill('Patient Care')">Patient Care</button>
+                <button onclick="qSkill('First Aid')">First Aid</button>
+                <button onclick="qSkill('Medical Records')">Medical Records</button>
+                <button onclick="qSkill('CPR Certified')">CPR Certified</button>
+                <button onclick="qSkill('Clinical Research')">Clinical Research</button>
+              </div>
+            </div>
+            <div class="sc-group">
+              <div class="sc-label">📚 Education</div>
+              <div class="quick-chips">
+                <button onclick="qSkill('Curriculum Development')">Curriculum Dev</button>
+                <button onclick="qSkill('Classroom Management')">Classroom Mgmt</button>
+                <button onclick="qSkill('Assessment Design')">Assessment</button>
+                <button onclick="qSkill('Mentoring')">Mentoring</button>
+                <button onclick="qSkill('E-Learning')">E-Learning</button>
+              </div>
+            </div>
+            <div class="sc-group">
+              <div class="sc-label">📊 Business & Finance</div>
+              <div class="quick-chips">
+                <button onclick="qSkill('Project Management')">Project Mgmt</button>
+                <button onclick="qSkill('Data Analysis')">Data Analysis</button>
+                <button onclick="qSkill('Budgeting')">Budgeting</button>
+                <button onclick="qSkill('Market Research')">Market Research</button>
+                <button onclick="qSkill('Financial Reporting')">Financial Reporting</button>
+                <button onclick="qSkill('Accounting')">Accounting</button>
+                <button onclick="qSkill('Risk Management')">Risk Management</button>
+              </div>
+            </div>
+            <div class="sc-group">
+              <div class="sc-label">🎨 Design & Creative</div>
+              <div class="quick-chips">
+                <button onclick="qSkill('Graphic Design')">Graphic Design</button>
+                <button onclick="qSkill('Video Editing')">Video Editing</button>
+                <button onclick="qSkill('Content Writing')">Content Writing</button>
+                <button onclick="qSkill('Social Media')">Social Media</button>
+                <button onclick="qSkill('Photography')">Photography</button>
+                <button onclick="qSkill('Branding')">Branding</button>
+              </div>
+            </div>
+            <div class="sc-group">
+              <div class="sc-label">⚙️ Engineering & Trades</div>
+              <div class="quick-chips">
+                <button onclick="qSkill('CAD Design')">CAD Design</button>
+                <button onclick="qSkill('Quality Control')">Quality Control</button>
+                <button onclick="qSkill('Safety Compliance')">Safety Compliance</button>
+                <button onclick="qSkill('Equipment Operation')">Equipment Op.</button>
+                <button onclick="qSkill('Maintenance')">Maintenance</button>
+                <button onclick="qSkill('Blueprint Reading')">Blueprint Reading</button>
+              </div>
+            </div>
           </div>
           <div class="tags-area" id="skill-tags"></div>
         </div>
@@ -231,6 +311,9 @@
             <button onclick="qLang('Urdu (Native)')">Urdu</button>
             <button onclick="qLang('Arabic (Intermediate)')">Arabic</button>
             <button onclick="qLang('French (Basic)')">French</button>
+            <button onclick="qLang('Hindi (Fluent)')">Hindi</button>
+            <button onclick="qLang('Chinese (Basic)')">Chinese</button>
+            <button onclick="qLang('Spanish (Intermediate)')">Spanish</button>
           </div>
           <div class="tags-area" id="lang-tags"></div>
         </div>
